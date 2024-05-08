@@ -1,4 +1,4 @@
-name: Version Bump
+name: Tag Bump
 
 on:
   push:
@@ -6,28 +6,31 @@ on:
       - main
 
 jobs:
-  build:
+  tag:
     runs-on: ubuntu-latest
-
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout code
+        uses: actions/checkout@v3
         with:
-          fetch-depth: 0  # ensures tags are fetched
-          persist-credentials: true  # automatically use GITHUB_TOKEN
+          fetch-depth: 0  # Fetch all history for all tags and branches
 
       - name: Setup Node.js
         uses: actions/setup-node@v2
         with:
           node-version: '16'
 
-      - name: Install dependencies
-        run: npm install
-
-      - name: Bump version
-        run: npm version patch -m "Upgrade to %s due to changes"
-
-      - name: Push changes
-        run: |
-          git push origin main --follow-tags
+      - name: Bump version tag
+        id: tag_bump
+        uses: anothrNick/github-tag-action@1.36.0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          DEFAULT_BUMP: patch
+          RELEASE_BRANCHES: main
+          WITH_V: true
+
+      - name: Push new tag
+        if: steps.tag_bump.outputs.new_tag
+        run: |
+          git tag ${{ steps.tag_bump.outputs.new_tag }}
+          git push origin --tags
+
