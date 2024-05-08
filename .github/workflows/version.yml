@@ -30,10 +30,3 @@ jobs:
           DEFAULT_BUMP: patch
           RELEASE_BRANCHES: main
           WITH_V: true
-
-      - name: Push new tag
-        if: steps.tag_bump.outputs.new_tag
-        run: |
-          git tag ${{ steps.tag_bump.outputs.new_tag }}
-          git push origin --tags
-
