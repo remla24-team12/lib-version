@@ -39,6 +39,8 @@ To use Lib Version, follow these steps:
 
 ```json
 "dependencies": {
-    "lib": "github:remla24-team12/lib-version#main"
+    "lib": "github:remla24-team12/lib-version#v0.0.X"
 }
 ```
+
+Replace X with the newest version number
