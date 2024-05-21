@@ -1,5 +1,5 @@
 {
-  "name": "remla24-team12/lib-version",
+  "name": "@remla24-team12/lib-version",
   "version": "1.0.0",
   "description": "A version-aware library",
   "main": "index.js",
