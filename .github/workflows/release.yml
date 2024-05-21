@@ -7,7 +7,7 @@ on:
         - completed
   push:
     branches:
-      - main 
+      - improve_lib_version_script 
 
 jobs:
   publish:
