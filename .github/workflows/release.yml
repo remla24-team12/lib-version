@@ -1,9 +1,13 @@
 name: Publish NPM Package to GitHub Packages
 
 on:
+  workflow_run:
+      workflows: ["Auto Versioning"]
+      types:
+        - completed
   push:
     branches:
-      - improve_lib_version_script  # This sets the trigger to only run on pushes to the main branch
+      - main 
 
 jobs:
   publish:
@@ -14,16 +18,28 @@ jobs:
     steps:
     - name: Check out repository
       uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+
+    - name: Get latest tag
+      id: get_version
+      run: echo "VERSION=$(git describe --tags `git rev-list --tags --max-count=1`)" >> $GITHUB_ENV
 
     - name: Set up Node.js
       uses: actions/setup-node@v3
       with:
-        node-version: '14'  # Adjust this to match your project's Node.js version
+        node-version: '14'  
         registry-url: 'https://npm.pkg.github.com/'
-        scope: '@${{ github.repository_owner }}'  # Replace with your GitHub username or org name
+        scope: '@${{ github.repository_owner }}' 
 
     - name: Install dependencies
       run: npm install
+    
+    - name: Update version in package.json
+      run: |
+        jq ".version = \"${{ env.VERSION }}\"" package.json > tmp.$$.json && mv tmp.$$.json package.json
+      shell: bash
+
 
     - name: Build and publish package
       run: npm publish
