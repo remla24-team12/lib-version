@@ -1,0 +1,28 @@
+name: Publish NPM Package to GitHub Packages
+
+on:
+  push:
+    branches:
+      - improve_lib_version_script  # This sets the trigger to only run on pushes to the main branch
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Check out repository
+      uses: actions/checkout@v2
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '14'  # Adjust this to match your project's Node.js version
+        registry-url: 'https://npm.pkg.github.com/'
+        scope: '${{ github.repository_owner }}'  # Replace with your GitHub username or org name
+
+    - name: Install dependencies
+      run: npm install
+
+    - name: Build and publish package
+      run: npm publish
+      env:
+        NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
