@@ -1,5 +1,5 @@
 {
-  "name": "lib-version",
+  "name": "@remla24-team12/lib-version",
   "version": "1.0.0",
   "description": "A version-aware library",
   "main": "index.js",
@@ -7,5 +7,8 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/"
+  }
 }
