@@ -38,6 +38,7 @@ jobs:
     - name: Update version in package.json
       run: |
         jq ".version = \"${{ env.VERSION }}\"" package.json > tmp.$$.json && mv tmp.$$.json package.json
+        cat package.json
       shell: bash
 
 
