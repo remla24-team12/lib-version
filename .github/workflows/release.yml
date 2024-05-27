@@ -40,7 +40,6 @@ jobs:
         jq ".version = \"${{ env.VERSION }}\"" package.json > tmp.$$.json && mv tmp.$$.json package.json
       shell: bash
 
-
     - name: Build and publish package
       run: npm publish
       env:
