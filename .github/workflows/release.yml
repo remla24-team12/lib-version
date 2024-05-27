@@ -39,13 +39,6 @@ jobs:
       run: |
         jq ".version = \"${{ env.VERSION }}\"" package.json > tmp.$$.json && mv tmp.$$.json package.json
       shell: bash
-    
-
-    - name: Debug version in package.json
-      run: |
-        cat package.json
-      shell: bash
-
 
     - name: Build and publish package
       run: npm publish
